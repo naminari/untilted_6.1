@@ -9,8 +9,6 @@ import exceptions.CmdArgsAmountException;
 
 import java.io.FileNotFoundException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 public class Main {
     public static void main(String[] args) throws CmdArgsAmountException, FileNotFoundException, InvocationTargetException, IllegalAccessException {
@@ -19,7 +17,7 @@ public class Main {
 //        String host = bundle.getString("hostName");
 //        int port = Integer.parseInt(bundle.getString("port"));
         String host = "localhost";
-        int port = 8111;
+        int port = 7211;
         Client client = new Client(humanDirector, host, port);
         Introduce introduce = new Introduce(client);
         introduce.run();

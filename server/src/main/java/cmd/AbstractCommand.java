@@ -7,7 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 
-public abstract class AbstractCommand implements Command{
+public abstract class AbstractCommand implements Command {
     protected final String name;
     protected final String description;
     protected final CmdType cmdType;

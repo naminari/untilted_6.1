@@ -1,6 +1,7 @@
 package commands;
 
 import cmd.*;
+import cmd.Command;
 import exceptions.ExecuteException;
 import exceptions.ValidException;
 
@@ -10,7 +11,7 @@ import java.lang.reflect.InvocationTargetException;
 
 public class Help extends AbstractCommand {
     private String message = "";
-    private CmdHandler cmdHandler;
+    private final CmdHandler cmdHandler;
 
     public Help(CmdHandler cmdHandler) {
         super("help", "вывести справку по доступным командам", CmdType.NO_ARGS);

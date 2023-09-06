@@ -158,41 +158,4 @@ public class HumanSet {
             }
         }
     }
-    // info, show, removeById,
-//    public static int getFreeUrinals(String urinals) {
-//        int result = 0;
-//
-//        urinals = urinals.replaceAll("10", "").replaceAll("^0+", "").replaceAll("0+$", "").replaceAll("01");
-//
-//        String[] fragments = urinals.split("1");
-//        for (String fragment : fragments) {
-//            result += (fragment.length() + 1) / 2;
-//        }
-//
-//        return result;
-//    }
 }
-//package org.example;
-//import org.testng.annotations.Test;
-//
-//import static org.testng.Assert.assertEquals;
-//
-//    public class Main {
-//        public static void main(String[] args) {
-//            System.out.println("Hello world!");
-//            System.out.println("Fixed Tests: noBoringZeros");
-//            testing(noBoringZeros(1450), 145);
-//            testing(noBoringZeros(960000), 96);
-//            testing(noBoringZeros(1050), 105);
-//            testing(noBoringZeros(-1050), -105);
-//
-//        }
-//        public static int noBoringZeros(int n) {
-//            while (n % 10 == 0){
-//                n = n/10;
-//            } return n;
-//        }
-//        private static void testing(int actual, int expected) {
-//            assertEquals(expected, actual);
-//        }
-//    }

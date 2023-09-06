@@ -1,6 +1,7 @@
 package commands;
 
 import cmd.*;
+import cmd.Command;
 import exceptions.ExecuteException;
 import exceptions.ValidException;
 

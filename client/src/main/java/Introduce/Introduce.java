@@ -2,6 +2,7 @@ package Introduce;
 
 import client.Client;
 import exceptions.CmdArgsAmountException;
+import utils.Message;
 import utils.TypeCommand;
 
 import java.io.FileNotFoundException;
@@ -35,19 +36,20 @@ public class Introduce {
         return input;
     }
 
-    public void run() throws CmdArgsAmountException, FileNotFoundException, InvocationTargetException, IllegalAccessException, NullPointerException {
+    public void run() throws NullPointerException {
         while (true) {
             String[] request = getUserInput();
             if (Objects.equals(request[0], "exit")){
                 System.out.println("Good bye");
                 System.exit(0);
             }
-            client.send(getCmdType(request[0]), getArgs(request));  /// программа работает
 
-        }
+            Message message = client.send(getCmdType(request[0]), getArgs(request));
+            System.out.println(message.getMessage());
+            }
     }
 
-    public TypeCommand getCmdType(String cmd) { ///  тут уже не работает
+    public TypeCommand getCmdType(String cmd) {
         if (TypeCommand.geTypeByName(cmd) == null){
             System.out.println("No such command");
             return null;

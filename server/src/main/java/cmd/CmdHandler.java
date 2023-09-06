@@ -49,17 +49,19 @@ public class CmdHandler {
 
     public String executeCmd(Transit<? extends Serializable> transit) throws CmdArgsAmountException, ExecuteException, FileNotFoundException, ValidException, InvocationTargetException, IllegalAccessException {
         Command command = getCmds().get(transit.getType().getName());
-        String result = null;
-        if (command.getCmdType() != CmdType.NO_ARGS && transit.getArgs().length == 0){                 //// и к моему огромному удивлению это тоже
+        String result;
+        if (command.getCmdType() == CmdType.SIMPLE_ARG && transit.getArgs().length == 0){                 //// и к моему огромному удивлению это тоже
             throw new ExecuteException("Missing argument");
         }else {
-            if (transit.getArgs().length == 1) {
-                result = command.action(transit.getArgs());
-            }
+            result = command.action(transit.getArgs());
+//            if (transit.getArgs().length == 1) {
+//                result = command.action(transit.getArgs());
+//            }
 //            else {
-//                List<String> list = new ArrayList<>(Arrays.asList(transit.getArgs()));
+//                List<Serializable> list = new ArrayList<>(Arrays.asList(transit.getArgs()));
 //                list.remove(0);
-//                result = command.action(list.toArray(new String[0]));
+//                result = command.action(list.toArray(new Serializable[0]));
+//            }
             cmdHistory.addLast(command);
             cmdHistory.removeFirst();
             return result;

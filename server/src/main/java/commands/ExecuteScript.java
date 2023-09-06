@@ -1,6 +1,7 @@
 package commands;
 
 import cmd.*;
+import cmd.Command;
 import collection.HumanSet;
 import exceptions.ExecuteException;
 import exceptions.ExecuteScriptException;
@@ -16,7 +17,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class ExecuteScript extends AbstractCommand {
-    private CmdHandler handler;
+    private final CmdHandler handler;
     private final Controller controller = new Controller();
     private final ArrayList<String> scriptResult = new ArrayList<>();
 
@@ -24,6 +25,7 @@ public class ExecuteScript extends AbstractCommand {
         super("execute_script", "file_name : считать и исполнить скрипт из указанного файла.", CmdType.SIMPLE_ARG);
         this.handler = handler;
     }
+
     private File getCurrentFileOrThrowValidException(String[] args) throws ValidException, IOException, ExecuteScriptException {
         if (args.length == 1) {
             File file = new File(args[0]);
@@ -32,7 +34,7 @@ public class ExecuteScript extends AbstractCommand {
                 return file;
             }
         }
-        throw new ValidException("Uncorrect input");
+        throw new ValidException("Uncorrected input");
     }
 
     private List<String[]> readFileLinesOrReturnNull(File file) throws NoSuchElementException {
@@ -63,6 +65,7 @@ public class ExecuteScript extends AbstractCommand {
 
     @Override
     public <K extends Serializable> String action(K[] args) throws FileNotFoundException, ValidException, InvocationTargetException, IllegalAccessException, ExecuteException {
+        StringBuilder result = new StringBuilder();
         try {
             File file = getCurrentFileOrThrowValidException((String[]) args);
             Optional<List<String[]>> list = Optional.ofNullable(readFileLinesOrReturnNull(file));
@@ -70,12 +73,12 @@ public class ExecuteScript extends AbstractCommand {
                 Command command = handler.getCmds().get(cmdArgs[0]);
                 if (!Objects.isNull(command)) {
                     if (cmdArgs.length == 1) {
-                        scriptResult.add(command.action(new Serializable[]{}));
+                        result.append(command.action(new Serializable[]{})).append("\n");
                     } else {
                         List<String> argsList = new ArrayList<>(Arrays.asList(cmdArgs));
                         argsList.remove(0);
                         String[] argsArray = argsList.toArray(new String[0]);
-                        scriptResult.add(command.action(argsArray));
+                        result.append(command.action(argsArray)).append("\n");
                     }
                 }
             }
@@ -87,7 +90,7 @@ public class ExecuteScript extends AbstractCommand {
             controller.getExcHistory().clear();
             controller.setZeroSize();
         }
-        return scriptResult.stream().collect(Collectors.joining(System.lineSeparator()));
+        return result.toString();
     }
 
     private static class Controller {

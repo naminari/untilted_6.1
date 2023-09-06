@@ -10,7 +10,7 @@ public enum TypeCommand {
     ADD_IF_MIN("add_if_min"),
     CLEAR("clear"),
     COUNT_LESS_WEAPON("count_less_weapon"),
-    EXECURE_SCRIPT("execute_script"),
+    EXECUTE_SCRIPT("execute_script"),
     EXIT("exit"),
     FILTER_BY_IMPACT_SPEED("filter_by_impact_speed"),
     FILTER_GREATER_THAN_MOOD("filter_greater_than_mood"),
