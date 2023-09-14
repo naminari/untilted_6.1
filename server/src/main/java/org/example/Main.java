@@ -15,11 +15,8 @@ import java.util.LinkedHashSet;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-//        ResourceBundle bundle = ResourceBundle.getBundle("myServer", new Locale("UA"));
-//        int port = Integer.parseInt(bundle.getString("port"));
-//        String host = bundle.getString("hostName");
         int port = 7211;
-        File file = new File("src/main/resources/redound.xml");
+        File file = new File("C:\\Users\\naminari\\Downloads\\лабы\\Прога\\redound.xml");
         XMLFileWriter<HumanBeing> writer = new XMLFileWriter<>();
         LinkedHashSet<HumanBeing> collection = new LinkedHashSet<>();
         HumanValidator humanValidator = new HumanValidator();

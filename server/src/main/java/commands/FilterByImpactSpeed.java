@@ -35,7 +35,7 @@ public class FilterByImpactSpeed extends AbstractCommand {
         if (humanSet.getCollection().isEmpty()){
             return "Collection is empty";
         }
-        if (BuildChecker.checkImpactSpeed(args[0].toString())) {
+        if (BuildChecker.checkInt(args[0].toString())) {
             return humanSet.filterByImpactSpeed(args[0].toString());
         } else {
             return "Enter the numeric value of impact speed";

@@ -29,6 +29,9 @@ public class ExecuteScript extends AbstractCommand {
     private File getCurrentFileOrThrowValidException(String[] args) throws ValidException, IOException, ExecuteScriptException {
         if (args.length == 1) {
             File file = new File(args[0]);
+            if (!file.exists()){
+                return null;
+            }
             if (FileChecker.checkFileToRead(file)) {
                 controller.addExc(file.getAbsolutePath());
                 return file;
@@ -68,6 +71,9 @@ public class ExecuteScript extends AbstractCommand {
         StringBuilder result = new StringBuilder();
         try {
             File file = getCurrentFileOrThrowValidException((String[]) args);
+            if (file ==null){
+                return "Некорректно указан путь к файлу    P.S. Укажите абсолютный путь";
+            }
             Optional<List<String[]>> list = Optional.ofNullable(readFileLinesOrReturnNull(file));
             for (String[] cmdArgs : list.orElseThrow(() -> new ExecuteException("Failed to read file"))) {
                 Command command = handler.getCmds().get(cmdArgs[0]);
@@ -77,8 +83,7 @@ public class ExecuteScript extends AbstractCommand {
                     } else {
                         List<String> argsList = new ArrayList<>(Arrays.asList(cmdArgs));
                         argsList.remove(0);
-                        String[] argsArray = argsList.toArray(new String[0]);
-                        result.append(command.action(argsArray)).append("\n");
+                        result.append(command.action(argsList.toArray(new String[0]))).append("\n");
                     }
                 }
             }

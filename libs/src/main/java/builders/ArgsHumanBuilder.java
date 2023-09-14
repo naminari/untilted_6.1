@@ -21,7 +21,7 @@ public class ArgsHumanBuilder {
     @Order(1)
     public void setName(String name) throws ValidException {
         if (name == null || name.isEmpty()) {
-            throw new ValidException("Uncorrect input (product's name)");
+            throw new ValidException("Uncorrected input (product's name)");
         }
         human.setName(name);
     }
@@ -29,7 +29,7 @@ public class ArgsHumanBuilder {
     @Order(2)
     public void setCoordinates(String x, String y) throws ValidException {
         if (!BuildChecker.checkXCoordinate(x) || !BuildChecker.checkYCoordinate(y)) {
-            throw new ValidException("Uncorrect input (product's coordinates)");
+            throw new ValidException(" Uncorrected input (product's coordinates)");
         }
         human.setCoordinates(new Coordinates(Long.parseLong(x), Float.parseFloat(y)));
     }
@@ -67,7 +67,7 @@ public class ArgsHumanBuilder {
     }
     @Order(6)
     public void setImpactSpeed(String speed) throws ValidException {
-        if (!BuildChecker.checkImpactSpeed(speed)) {
+        if (!BuildChecker.checkInt(speed)) {
             throw new ValidException("Uncorrected input (product's coordinates)");
         }
         human.setImpactSpeed(Long.parseLong(speed));

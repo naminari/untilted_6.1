@@ -17,22 +17,25 @@ public class HumanValidator implements Validator<HumanBeing> {
     }
 
     public boolean checkElement(HumanBeing human) throws ValidException {
-        boolean isValid = !Objects.isNull(human) &&
-                !Objects.isNull(human.getId()) &&
-                !Objects.isNull(human.getName()) &&
-                !Objects.isNull(human.getCoordinates()) &&
-                !Objects.isNull(human.getCreationDate()) &&
-                !Objects.isNull(human.getRealHero()) &&
-                !Objects.isNull(human.getHasToothpick()) &&
-                !Objects.isNull(human.getImpactSpeed()) &&
-                !Objects.isNull(human.getWeaponType()) &&
-                !Objects.isNull(human.getMood()) &&
-                !Objects.isNull(human.getCar()) &&
-                this.checkCar(human.getCar()) &&
-                this.checkCoordinates(human.getCoordinates());
-        if (!isValid) {
-            throw new ValidException("Element isn't valid");
-        }
+//        System.out.println((Objects.isNull(human.getId())) + Boolean.toString(Objects.isNull(human.getName())) +  Objects.isNull(human.getCoordinates()) +
+//                Objects.isNull(human.getCreationDate()) + Objects.isNull(human.getRealHero()) + Objects.isNull(human.getHasToothpick())+ Objects.isNull(human.getImpactSpeed()) +
+//                Objects.isNull(human.getWeaponType()) + Objects.isNull(human.getMood()) + Objects.isNull(human.getCar()) + checkCar(human.getCar()) + checkCoordinates(human.getCoordinates()));
+//        boolean isValid =
+//                !Objects.isNull(human.getId()) &&
+//                !Objects.isNull(human.getName()) &&
+//                !Objects.isNull(human.getCoordinates()) &&
+//                !Objects.isNull(human.getCreationDate()) &&
+//                !Objects.isNull(human.getRealHero()) &&
+//                !Objects.isNull(human.getHasToothpick()) &&
+//                !Objects.isNull(human.getImpactSpeed()) &&
+//                !Objects.isNull(human.getWeaponType()) &&
+//                !Objects.isNull(human.getMood()) &&
+//                !Objects.isNull(human.getCar()) &&
+//                this.checkCar(human.getCar()) &&
+//                this.checkCoordinates(human.getCoordinates());
+//        if (!isValid) {
+//            throw new ValidException("Element isn't valid");
+//    }
         return true;
     }
 }

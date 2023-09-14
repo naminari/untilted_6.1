@@ -11,6 +11,7 @@ import humans.HumanBeing;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.Optional;
 
 public class AddIfMin extends AbstractCommand {
@@ -30,13 +31,23 @@ public class AddIfMin extends AbstractCommand {
 //    }
     @Override
     public <K extends Serializable> String action(K[] args) throws FileNotFoundException, ValidException, InvocationTargetException, IllegalAccessException, ExecuteException {
-        HumanBeing humanBeing = null;
-        for (K arg: args) {
-            if (arg instanceof HumanBeing) {
-                humanBeing = (HumanBeing) arg;
-            }
+        System.out.println(Arrays.toString(args));
+        HumanBeing humanBeing;
+        if (args.length == 1){
+            humanBeing = (HumanBeing) args[0];
         }
-        return humanSet.addIfMin(Optional.ofNullable(humanBeing).orElseThrow(() -> new ExecuteException("Empty arguments add cmd")));
+        else {
+            String[] data = new String[args.length];
+
+            for (int i = 0; i < args.length; i++) {
+                data[i] = String.valueOf(args[i]);    /// явепияв
+            }
+            humanBeing = humanSet.getHumanDirector().buildHuman(data);
+        }
+
+
+
+        return humanSet.addIfMin(humanBeing);
     }
 }
 

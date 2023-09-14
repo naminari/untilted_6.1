@@ -1,8 +1,6 @@
 package client;
 
-import builders.HumanConsoleBuilder;
 import builders.HumanDirector;
-import cmd.Command;
 import exceptions.ValidException;
 import humans.HumanBeing;
 import utils.Message;
@@ -21,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class Client {
     private final HumanDirector director;
@@ -40,11 +37,10 @@ public class Client {
                 connect();
             }
             Transit<Serializable> object;
-            if (checkСomplexityOfCommand(type)){
+            if (checkСomplexityOfCommand(type)) {
                 HumanBeing humanBeing = director.buildHuman(Arrays.toString(args));    /// WARNING
                 object = packCommandToTransit(type, new Serializable[]{humanBeing});
-            }
-            else {
+            } else {
                 object = packCommandToTransit(type, args);
             }
             history.add(object.getType().getName());
@@ -56,36 +52,11 @@ public class Client {
             return new Message(TypeMessage.EMPTY_CONNECTION_WITH_SERVER, e.getMessage());  /// ошибка
         } catch (ClassNotFoundException e) {
             return new Message(TypeMessage.BAD_RESPONSE, e.getMessage());
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             return new Message(TypeMessage.BAD_RESPONSE, "Такой команды не существует");
         } catch (ValidException | InvocationTargetException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public String getHistory() {
-        if (history.size() > 11) {                                            /// Выводит последние 12 команд
-            StringBuilder buffer = new StringBuilder();
-            for (int i = history.size() - 12; i < history.size() - 1; i++) {
-                buffer.append(history.get(i)).append(System.lineSeparator());
-            }
-            return buffer.toString();
-        } else {
-            if (history.isEmpty()) {
-                return "Empty commands' history";
-            } else {
-                return history.stream()
-                        .collect(Collectors.joining(System.lineSeparator()));
-            }
-        }
-    }
-
-    public void addHistory(String history) {
-        this.history.add(history);
-    }
-
-    public HumanBeing createProduct(String... args) throws ValidException, InvocationTargetException, IllegalAccessException {
-        return director.buildHuman(args);
     }
 
     private void sendMessage(ByteBuffer byteBuffer) throws IOException {

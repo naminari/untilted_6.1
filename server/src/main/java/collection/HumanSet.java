@@ -24,6 +24,11 @@ public class HumanSet {
     private final XMLFileWriter<HumanBeing> writer;
     private final File file;
     private ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
+
+    public File getFile() {
+        return file;
+    }
+
     private final Lock readLock = readWriteLock.readLock();
     private final Lock writeLock = readWriteLock.writeLock();
 
@@ -78,15 +83,6 @@ public class HumanSet {
 
     public Optional<HumanBeing> getMinElement() {
         return collection.stream().min(Comparator.comparingLong(HumanBeing::getImpactSpeed));
-    }
-
-    public void clear() {
-        collection.clear();
-    }
-
-    public void exit() {
-        System.out.println("Bye!");
-        System.exit(0);
     }
 
     public HumanDirector getHumanDirector() {
@@ -145,17 +141,11 @@ public class HumanSet {
         }
         return str.toString();
     }
-
-    public void save(String[] arg) throws FileNotFoundException {
-        if (arg.length == 0) {
-            writer.writeCollectionToFile(file, collection);
-        } else {
-            File newFile = new File(arg[0]);
-            if (FileChecker.checkFileToWrite(newFile)) {
-                writer.writeCollectionToFile(newFile, collection);
+    public void save(File arg) throws FileNotFoundException {
+            if (FileChecker.checkFileToWrite(arg)) {
+                writer.writeCollectionToFile(arg, collection);
             } else {
-                throw new FileNotFoundException(String.format("With name - %s", arg[0]));
+                throw new FileNotFoundException(String.format("With name - %s", arg.getName()));
             }
-        }
     }
 }

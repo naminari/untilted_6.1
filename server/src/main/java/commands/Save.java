@@ -6,6 +6,7 @@ import collection.HumanSet;
 import exceptions.ExecuteException;
 import exceptions.ValidException;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
@@ -27,17 +28,14 @@ public class Save extends AbstractCommand {
     public <K extends Serializable> String action(K[] args) throws FileNotFoundException, ValidException, InvocationTargetException, IllegalAccessException, ExecuteException {
         String str = null;
         for (K arg : args) {
-            if (arg instanceof String) {
-                str = (String) arg;
-            }
-            if (str == null){
-                humanSet.save(new String[0]);
-            } else {
-                String[] strings = new String[1];
-                Arrays.fill(strings, str);
-                humanSet.save(strings);
-                }
-            }
+            str = (String) arg;
+        }
+        if (str != null){
+            File file = new File(str);
+            humanSet.save(file);
+        } else {
+            humanSet.save(humanSet.getFile());
+        }
         return "Collection been saved into file";
     }
 }

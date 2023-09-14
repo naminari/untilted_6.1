@@ -1,7 +1,5 @@
 package utils;
 
-import humans.Mood;
-
 import java.util.ArrayList;
 import java.util.List;
 

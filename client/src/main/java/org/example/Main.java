@@ -13,9 +13,6 @@ import java.lang.reflect.InvocationTargetException;
 public class Main {
     public static void main(String[] args) throws CmdArgsAmountException, FileNotFoundException, InvocationTargetException, IllegalAccessException {
         HumanDirector humanDirector = new HumanDirector(new HumanValidator());
-//        ResourceBundle bundle = ResourceBundle.getBundle("resources.myClient");
-//        String host = bundle.getString("hostName");
-//        int port = Integer.parseInt(bundle.getString("port"));
         String host = "localhost";
         int port = 7211;
         Client client = new Client(humanDirector, host, port);

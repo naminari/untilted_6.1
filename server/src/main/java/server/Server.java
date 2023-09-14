@@ -2,6 +2,7 @@ package server;
 
 import cmd.CmdHandler;
 
+import com.ctc.wstx.exc.WstxOutputException;
 import exceptions.CmdArgsAmountException;
 import exceptions.ExecuteException;
 import exceptions.ValidException;
@@ -13,6 +14,7 @@ import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Arrays;
 
 public class Server {
     private final CmdHandler handler;
@@ -45,32 +47,9 @@ public class Server {
             System.out.println("Ошибка при запуске сервера: " + e.getMessage());
         } catch (ExecuteException | ValidException | CmdArgsAmountException |
                  InvocationTargetException | IllegalAccessException e) {
-            System.out.println("huui");
             throw new RuntimeException(e);
         }
     }
-//        while (true) {
-//            try (ServerSocket server = new ServerSocket(port)) {/// сокет сервера
-//                System.out.println("хуй");
-//                Socket socket = server.accept();                             /// сокет с клиента
-//                var readStream = socket.getInputStream();                    /// чтение входящего инпута
-//                Transit<? extends Serializable> transit = readTransit(readStream);  /// создание нового транзита из инпута
-//                System.out.println("Транзит читается");
-//                Message message = new Message(TypeMessage.OK, handler.executeCmd(transit));  /// создание сообщения о корректной передаче данных на сервер и результате выполнения команды
-//                System.out.println("Команда выполняется и формируется сообщение");
-//                var writeStream = socket.getOutputStream();
-//                sendMessage(message, writeStream);
-//                System.out.println("Сообщение отправлено");
-//            } catch (ClassNotFoundException e) {
-//                System.out.println(e.getMessage());
-//            } catch (IOException | CmdArgsAmountException | ExecuteException | ValidException |
-//                     InvocationTargetException | IllegalAccessException e) {
-//                System.out.println(e.getMessage() + "!");
-//            }
-//        }
-
-
-
     private Transit<? extends Serializable> readTransit(InputStream stream) throws IOException, ClassNotFoundException {
         int availableBytes = 0;
         while (availableBytes == 0) {

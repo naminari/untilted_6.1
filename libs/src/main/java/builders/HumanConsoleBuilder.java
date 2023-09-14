@@ -47,11 +47,11 @@ public class HumanConsoleBuilder {
                     if (BuildChecker.checkYCoordinate(lineY)) {
                         y = lineY;
                     } else {
-                        System.out.println("Uncorrect input");
+                        System.out.println("Uncorrected input");
                     }
                 }
             } else {
-                System.out.println("Uncorrect input");
+                System.out.println("Uncorrected input");
             }
         }
         this.human.setCoordinates(new Coordinates(x, Float.parseFloat(y)));
@@ -104,10 +104,10 @@ public class HumanConsoleBuilder {
         while (Objects.isNull(x)) {
             System.out.println("Enter human's impact speed, P.S: long number");
             String lineX = UserInput.input().trim();
-            if (BuildChecker.checkXCoordinate(lineX)) {
+            if (BuildChecker.checkInt(lineX)) {
                 x = Long.parseLong(lineX);
             } else {
-                System.out.println("Uncorrect input");
+                System.out.println("Uncorrected input");
             }
         }
         this.human.setImpactSpeed(x);
@@ -122,7 +122,7 @@ public class HumanConsoleBuilder {
             if (BuildChecker.checkWeaponType(value)) {
                 type = WeaponType.getWeaponTypeByNumber(Integer.parseInt(value));
             } else {
-                System.out.println("Uncorrect input");
+                System.out.println("Uncorrected input");
             }
         }
         this.human.setWeaponType(type);
@@ -137,7 +137,7 @@ public class HumanConsoleBuilder {
             if (BuildChecker.checkMood(value)) {
                 mood = Mood.getMoodByNumber(Integer.parseInt(value));
             } else {
-                System.out.println("Uncorrect input");
+                System.out.println("Uncorrected input");
             }
         }
         this.human.setMood(mood);

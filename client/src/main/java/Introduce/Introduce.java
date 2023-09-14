@@ -1,12 +1,9 @@
 package Introduce;
 
 import client.Client;
-import exceptions.CmdArgsAmountException;
 import utils.Message;
 import utils.TypeCommand;
 
-import java.io.FileNotFoundException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 public class Introduce {
@@ -63,15 +60,3 @@ public class Introduce {
         return newArray;
     }
 }
-//}    public CmdRequest getRequest(String[] args){
-//    if (!cmdHandler.checkingTheList(args[0])){
-//        System.out.println("No such command");
-//    } else {
-//        List<String> list = new ArrayList<>(Arrays.asList(args));
-//        list.remove(0);
-//        Command command = cmdHandler.getCmds().get(args[0]);
-//        CmdArgs cmdArgs= new CmdArgs(list.toArray(new String[0]));
-//        CmdRequest request = new CmdRequest(command, cmdArgs);
-//        return request;
-//    }
-//}
