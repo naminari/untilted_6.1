@@ -8,6 +8,8 @@ import exceptions.ValidException;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
+import java.util.List;
 
 public class Help extends AbstractCommand {
     private String message = "";
@@ -20,14 +22,15 @@ public class Help extends AbstractCommand {
 
 
     private String createMessage(){
-        for (Command cmd : cmdHandler.getCmds().values()){
+        Collection<Command> commands = cmdHandler.getCmds().values();
+        for (Command cmd : commands){
             message += cmd.getName() + ": " + cmd.getDescription() + "\n";
         }
         return message;
     }
 
     @Override
-    public <K extends Serializable> String action(K[] args) throws FileNotFoundException, ValidException, InvocationTargetException, IllegalAccessException, ExecuteException {
+    public <K extends Serializable> String action(CommandArgs<K> args) throws FileNotFoundException, ValidException, InvocationTargetException, IllegalAccessException, ExecuteException {
         if (message.equals("")){
             message = createMessage();
         }

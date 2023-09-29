@@ -2,6 +2,7 @@ package commands;
 
 import cmd.AbstractCommand;
 import cmd.CmdType;
+import cmd.CommandArgs;
 import collection.HumanSet;
 import exceptions.ExecuteException;
 import exceptions.ValidException;
@@ -29,7 +30,7 @@ public class Show extends AbstractCommand {
 //    }
 
     @Override
-    public <K extends Serializable> String action(K[] args) throws FileNotFoundException, ValidException, InvocationTargetException, IllegalAccessException, ExecuteException {
-        return humanSet.toString();
+    public <K extends Serializable> String action(CommandArgs<K> args) throws FileNotFoundException, ValidException, InvocationTargetException, IllegalAccessException, ExecuteException {
+        return humanSet.show();
     }
 }

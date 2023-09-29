@@ -17,7 +17,7 @@ public class History extends AbstractCommand {
         this.cmdHandler = cmdHandler;
     }
     @Override
-    public <K extends Serializable> String action(K[] args) throws FileNotFoundException, ValidException, InvocationTargetException, IllegalAccessException, ExecuteException {
+    public <K extends Serializable> String action(CommandArgs<K> args) throws FileNotFoundException, ValidException, InvocationTargetException, IllegalAccessException, ExecuteException {
         LinkedList<Command> cmds = cmdHandler.getCmdHistory();
         StringBuilder str = new StringBuilder();
         for (Command cmd : cmds){

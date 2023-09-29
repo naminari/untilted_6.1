@@ -14,10 +14,7 @@ public class ArgsHumanBuilder {
     private final HumanBeing human = new HumanBeing();
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    public void setId() {
-        UUID uuid = Generators.timeBasedGenerator().generate();
-        human.setId(uuid);
-    }
+
     @Order(1)
     public void setName(String name) throws ValidException {
         if (name == null || name.isEmpty()) {

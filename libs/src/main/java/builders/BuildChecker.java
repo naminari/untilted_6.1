@@ -17,6 +17,9 @@ public class BuildChecker {
         boolean l = x.matches(LONG_VALUE);
         return l && Long.parseLong(x) <= 532;
     }
+    public static boolean checkHumanName(String name) {
+        return !name.isEmpty();
+    }
     public static boolean checkYCoordinate(String y) {
         return y.length() < 14 && y.matches(DOUBLE_VALUE);
     }

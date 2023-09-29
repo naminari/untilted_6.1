@@ -4,6 +4,7 @@ import builders.BuildChecker;
 import cmd.AbstractCommand;
 
 import cmd.CmdType;
+import cmd.CommandArgs;
 import collection.HumanSet;
 import exceptions.ExecuteException;
 import exceptions.ValidException;
@@ -30,9 +31,9 @@ public class FilterGreaterThanMood extends AbstractCommand {
 //        }
 //    }
     @Override
-    public <K extends Serializable> String action(K[] args) throws FileNotFoundException, ValidException, InvocationTargetException, IllegalAccessException, ExecuteException {
-        if (BuildChecker.checkMood(args[0].toString())) {
-            Mood mood  = Mood.getMoodByNumber(Integer.parseInt(args[0].toString()));
+    public <K extends Serializable> String action(CommandArgs<K> args) throws FileNotFoundException, ValidException, InvocationTargetException, IllegalAccessException, ExecuteException {
+        if (BuildChecker.checkMood(args.getArgs()[0].toString())) {
+            Mood mood  = Mood.getMoodByNumber(Integer.parseInt(args.getArgs()[0].toString()));
             return  humanSet.filterGreaterThanMood(mood);
         } else {
             return "Uncorrected input, enter a number from 1 to 4 for the corresponding Enum values";

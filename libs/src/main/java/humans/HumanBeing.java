@@ -5,11 +5,12 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.UUID;
 
 public class HumanBeing implements MainCollectible, Comparable<HumanBeing>, Serializable {
-    private UUID id;
+    private Integer id;
     private String name;
     private Coordinates coordinates;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
@@ -20,6 +21,21 @@ public class HumanBeing implements MainCollectible, Comparable<HumanBeing>, Seri
     private WeaponType weaponType;
     private Mood mood;
     private Car car;
+
+    public HumanBeing(int id, String name, Coordinates coordinates, LocalDateTime creationDate, boolean realHero, boolean hasToothpick, long impactSpeed, WeaponType type, Mood mood, Car car){
+        this.id = id;
+        this.name = name;
+        this.coordinates = coordinates;
+        this.creationDate = creationDate;
+        this.realHero = realHero;
+        this.hasToothpick = hasToothpick;
+        this.impactSpeed = impactSpeed;
+        this.mood = mood;
+        this.car = car;
+        this.weaponType = type;
+    }
+    public HumanBeing(){
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -53,11 +69,11 @@ public class HumanBeing implements MainCollectible, Comparable<HumanBeing>, Seri
         return car;
     }
 
-    public UUID getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

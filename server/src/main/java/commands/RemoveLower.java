@@ -2,6 +2,7 @@ package commands;
 
 import cmd.AbstractCommand;
 import cmd.CmdType;
+import cmd.CommandArgs;
 import collection.HumanSet;
 import exceptions.ExecuteException;
 import exceptions.ValidException;
@@ -37,9 +38,9 @@ public class RemoveLower extends AbstractCommand {
 //    }
 
     @Override
-    public <K extends Serializable> String action(K[] args) throws FileNotFoundException, ValidException, InvocationTargetException, IllegalAccessException, ExecuteException {
+    public <K extends Serializable> String action(CommandArgs<K> args) throws FileNotFoundException, ValidException, InvocationTargetException, IllegalAccessException, ExecuteException {
         HumanBeing humanBeing = null;
-        for (K arg: args) {
+        for (Serializable arg: args.getArgs()) {
             if (arg instanceof HumanBeing) {
                 humanBeing = (HumanBeing) arg;
             }

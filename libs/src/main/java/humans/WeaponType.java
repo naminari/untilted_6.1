@@ -29,6 +29,19 @@ public enum WeaponType {
         return null;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public static WeaponType getWeaponByName(String name) {
+        for (WeaponType type: WeaponType.values()) {
+            if (type.name.equals(name)) {
+                return type;
+            }
+        }
+        return null;
+    }
+
     public static List<String> getWeaponTypeList() {
         List<String> types = new ArrayList<>();
         for (WeaponType type : WeaponType.values()) {

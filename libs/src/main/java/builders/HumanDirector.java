@@ -28,7 +28,6 @@ public class HumanDirector {
             return buildHumanWithArgs(humanBeingMethods, args);
         } else {
             HumanConsoleBuilder builder = new HumanConsoleBuilder(new HumanBeing()) {{
-                setId();
                 setName();
                 setCoordinates();
                 setCreationDate();
@@ -63,7 +62,6 @@ public class HumanDirector {
                 count = count + 2;
             }
         }
-        argsHumanBuilder.setId();
         return argsHumanBuilder.getHuman(humanBeingValidator);
     }
 

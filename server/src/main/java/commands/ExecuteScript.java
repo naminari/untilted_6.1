@@ -67,23 +67,23 @@ public class ExecuteScript extends AbstractCommand {
     }
 
     @Override
-    public <K extends Serializable> String action(K[] args) throws FileNotFoundException, ValidException, InvocationTargetException, IllegalAccessException, ExecuteException {
+    public <K extends Serializable> String action(CommandArgs<K> args) throws FileNotFoundException, ValidException, InvocationTargetException, IllegalAccessException, ExecuteException {
         StringBuilder result = new StringBuilder();
         try {
-            File file = getCurrentFileOrThrowValidException((String[]) args);
+            File file = getCurrentFileOrThrowValidException((String[]) args.getArgs());
             if (file ==null){
                 return "Некорректно указан путь к файлу    P.S. Укажите абсолютный путь";
             }
             Optional<List<String[]>> list = Optional.ofNullable(readFileLinesOrReturnNull(file));
             for (String[] cmdArgs : list.orElseThrow(() -> new ExecuteException("Failed to read file"))) {
-                Command command = handler.getCmds().get(cmdArgs[0]);
+                Command command = (Command) handler.getCmds().get(cmdArgs[0]);
                 if (!Objects.isNull(command)) {
                     if (cmdArgs.length == 1) {
-                        result.append(command.action(new Serializable[]{})).append("\n");
+                        result.append(command.action(new CommandArgs<>(new Serializable[]{},args.getUserId(), args.getHandler()))).append("\n");
                     } else {
                         List<String> argsList = new ArrayList<>(Arrays.asList(cmdArgs));
                         argsList.remove(0);
-                        result.append(command.action(argsList.toArray(new String[0]))).append("\n");
+                        result.append(command.action(new CommandArgs<>(argsList.toArray(new String[0]), args.getUserId(),args.getHandler()))).append("\n");
                     }
                 }
             }

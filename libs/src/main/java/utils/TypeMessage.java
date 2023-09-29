@@ -3,5 +3,11 @@ package utils;
 public enum TypeMessage {
     EMPTY_CONNECTION_WITH_SERVER,
     BAD_RESPONSE,
-    OK
+    LOG_IN,
+    REGISTER,
+    WRONG_PASSWORD,
+    ALREADY_ACTIVE_SESSION,
+    OK,
+    EMPTY_REGISTRATION
+
 }

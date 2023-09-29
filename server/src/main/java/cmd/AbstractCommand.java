@@ -16,7 +16,7 @@ public abstract class AbstractCommand implements Command {
         this.description = d;
         this.cmdType = t;
     }
-    public abstract <K extends Serializable> String action(K[] args) throws FileNotFoundException, ValidException, InvocationTargetException, IllegalAccessException, ExecuteException;
+    public abstract <K extends Serializable> String action(CommandArgs<K> args) throws FileNotFoundException, ValidException, InvocationTargetException, IllegalAccessException, ExecuteException;
     public String getName(){
         return name;
     }

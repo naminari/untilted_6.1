@@ -19,9 +19,6 @@ public class Coordinates implements Serializable {
         this.y = y;
     }
 
-    public Coordinates() {
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

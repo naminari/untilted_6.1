@@ -3,6 +3,8 @@ package commands;
 import builders.BuildChecker;
 import cmd.AbstractCommand;
 import cmd.CmdType;
+import cmd.Command;
+import cmd.CommandArgs;
 import collection.HumanSet;
 import exceptions.ExecuteException;
 import exceptions.ValidException;
@@ -31,12 +33,12 @@ public class FilterByImpactSpeed extends AbstractCommand {
 //    }
 
     @Override
-    public <K extends Serializable> String action(K[] args) throws FileNotFoundException, ValidException, InvocationTargetException, IllegalAccessException, ExecuteException {
+    public <K extends Serializable> String action(CommandArgs<K> args) throws FileNotFoundException, ValidException, InvocationTargetException, IllegalAccessException, ExecuteException {
         if (humanSet.getCollection().isEmpty()){
             return "Collection is empty";
         }
-        if (BuildChecker.checkInt(args[0].toString())) {
-            return humanSet.filterByImpactSpeed(args[0].toString());
+        if (BuildChecker.checkInt(args.getArgs()[0].toString())) {
+            return humanSet.filterByImpactSpeed(args.getArgs()[0].toString());
         } else {
             return "Enter the numeric value of impact speed";
         }

@@ -2,6 +2,7 @@ package commands;
 
 import cmd.AbstractCommand;
 import cmd.CmdType;
+import cmd.CommandArgs;
 import collection.HumanSet;
 import exceptions.ExecuteException;
 import exceptions.ValidException;
@@ -24,7 +25,8 @@ public class Info extends AbstractCommand {
 //    }
 
     @Override
-    public <K extends Serializable> String action(K[] args) throws FileNotFoundException, ValidException, InvocationTargetException, IllegalAccessException, ExecuteException {
-        return "This collection's type is a " + humanSet.getCollection().getClass().getName() + ", it contains " + humanSet.getCollection().size() + " elements.";
+    public <K extends Serializable> String action(CommandArgs<K> args) throws FileNotFoundException, ValidException, InvocationTargetException, IllegalAccessException, ExecuteException {
+        return "This collection's type is a " + humanSet.getCollection().getClass().getName() + ", it contains " + humanSet.getCollection().size() + " elements, "
+                + humanSet.getDatabaseInfo() + " is Storage location";
     }
 }

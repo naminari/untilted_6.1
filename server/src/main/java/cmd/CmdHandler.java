@@ -1,8 +1,10 @@
 package cmd;
 
+import database.DatabaseHandler;
 import exceptions.CmdArgsAmountException;
 import exceptions.ExecuteException;
 import exceptions.ValidException;
+import humans.HumanBeing;
 import utils.Transit;
 
 import java.io.FileNotFoundException;
@@ -10,10 +12,10 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
-public class CmdHandler {
+public class CmdHandler<T extends Collection<HumanBeing>> {
 
     private final HashMap<String, Command> cmds;
-    private final LinkedList<Command> cmdHistory;    /// Походу это нужно только на сервере
+    private final LinkedList<Command> cmdHistory;
 
     public CmdHandler() {
         this.cmds = new HashMap<>();
@@ -47,13 +49,14 @@ public class CmdHandler {
         return cmds;
     }
 
-    public String executeCmd(Transit<? extends Serializable> transit) throws CmdArgsAmountException, ExecuteException, FileNotFoundException, ValidException, InvocationTargetException, IllegalAccessException {
+    public String executeCmd(Transit<? extends Serializable> transit, int userId, DatabaseHandler handler) throws CmdArgsAmountException, ExecuteException, FileNotFoundException, ValidException, InvocationTargetException, IllegalAccessException {
         Command command = getCmds().get(transit.getType().getName());
         String result;
-        if (command.getCmdType() == CmdType.SIMPLE_ARG && transit.getArgs().length == 0){                 //// и к моему огромному удивлению это тоже
+        if (command.getCmdType() == CmdType.SIMPLE_ARG && transit.getArgs().length == 0){
             throw new ExecuteException("Missing argument");
-        }else {
-            result = command.action(transit.getArgs());
+        } else {
+                CommandArgs<Serializable> commandArgs = new CommandArgs<>(transit.getArgs(), userId, handler);
+                result = command.action(commandArgs);
 //            if (transit.getArgs().length == 1) {
 //                result = command.action(transit.getArgs());
 //            }

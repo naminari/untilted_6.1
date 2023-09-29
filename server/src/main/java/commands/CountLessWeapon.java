@@ -4,6 +4,7 @@ import builders.BuildChecker;
 import cmd.AbstractCommand;
 
 import cmd.CmdType;
+import cmd.CommandArgs;
 import collection.HumanSet;
 import exceptions.ExecuteException;
 import exceptions.ValidException;
@@ -35,20 +36,19 @@ public class CountLessWeapon extends AbstractCommand {
 //    }
 
     @Override
-    public <K extends Serializable> String action(K[] args) throws FileNotFoundException, ValidException, InvocationTargetException, IllegalAccessException, ExecuteException {
+    public <K extends Serializable> String action(CommandArgs<K> args) throws FileNotFoundException, ValidException, InvocationTargetException, IllegalAccessException, ExecuteException {
         if (humanSet.getCollection().isEmpty()){
             return "Collection is empty";
         }
         Optional<Integer> weapon = Optional.empty();
-        for (K arg : args) {
+        for (Serializable arg : args.getArgs()) {
             if (arg instanceof Integer) {
                 weapon = Optional.of((Integer) arg);
             }
 
         if (BuildChecker.checkWeaponType(weapon.toString())) {
             WeaponType weaponType = WeaponType.getWeaponTypeByNumber(Integer.parseInt(weapon.toString()));
-            int res = humanSet.countLessWeapon(weaponType);
-            return Integer.toString(res);
+            return humanSet.countLessWeapon(weaponType);
         }else {
             return "Uncorrected input, enter a number from 1 to 4 for the corresponding Enum values";
         }

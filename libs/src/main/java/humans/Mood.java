@@ -11,6 +11,10 @@ public enum Mood {
     private final int number;
     private final String name;
 
+    public String getName() {
+        return name;
+    }
+
     Mood(int number, String name) {
         this.name = name;
         this.number = number;
@@ -19,6 +23,14 @@ public enum Mood {
     public static Mood getMoodByNumber(int i) {
         for (Mood mood : Mood.values()) {
             if (mood.number == i) {
+                return mood;
+            }
+        }
+        return null;
+    }
+    public static Mood getMoodByName(String name) {
+        for (Mood mood: Mood.values()) {
+            if (mood.name.equals(name)) {
                 return mood;
             }
         }

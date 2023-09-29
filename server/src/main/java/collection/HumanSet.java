@@ -6,6 +6,7 @@ import humans.HumanBeing;
 import humans.Mood;
 import humans.WeaponType;
 import io.XMLFileWriter;
+import lombok.extern.slf4j.Slf4j;
 import utils.FileChecker;
 
 import java.io.File;
@@ -15,38 +16,42 @@ import java.util.*;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.stream.Collectors;
 
-public class HumanSet {
+@Slf4j
+public class HumanSet implements HumanCollection<Queue<HumanBeing>>{
     private final Set<HumanBeing> collection;
-    private final HumanDirector humanDirector;
     private final LocalDateTime creationDate;
     private final Validator<HumanBeing> validator;
-    private final XMLFileWriter<HumanBeing> writer;
-    private final File file;
-    private ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
+    private final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
 
-    public File getFile() {
-        return file;
+    public String getDatabaseInfo() {
+        return databaseInfo;
     }
+
+    private final String databaseInfo;
 
     private final Lock readLock = readWriteLock.readLock();
     private final Lock writeLock = readWriteLock.writeLock();
 
-    public HumanSet(Collection<HumanBeing> collection, HumanDirector humanDirector, File file, Validator<HumanBeing> validator, XMLFileWriter<HumanBeing> writer) {
-        this.humanDirector = humanDirector;
-        this.writer = writer;
+    public HumanSet(Collection<HumanBeing> collection,String clientInfo, Validator<HumanBeing> validator) {
+        this.databaseInfo = clientInfo;
         this.collection = new LinkedHashSet<>();
         this.validator = validator;
         collection.forEach(this::add);
-        this.file = file;
         this.creationDate = LocalDateTime.now();
-        System.out.println("Collection was initialized");
+        log.info("Collection was initialized");
     }
 
     public Set<HumanBeing> getCollection() {
         return collection;
     }
-
+    public int size() {
+        readLock.lock();
+        int size = collection.size();
+        readLock.unlock();
+        return size;
+    }
     public String add(HumanBeing element) {
         try {
             String message;
@@ -58,45 +63,48 @@ public class HumanSet {
             } else {
                 message = String.format("element: %s is already exists", element.getId().toString());
             }
+            log.info(message);
             return message;
         } catch (ValidException e) {
+            log.error(e.getMessage());
             return e.getMessage();
         }
     }
 
-    public String addIfMin(HumanBeing humanBeing) {
+    public Boolean Min(HumanBeing humanBeing) {
         if (collection.size() == 0) {
-            return add(humanBeing);
+            return true;
         }
         if (getMinElement().get().compareTo(humanBeing) > 0) {
-            return add(humanBeing);
+            return true;
         } else {
-            return "Human more than min of collection or equals it";
+            return false;
+//            return "Human more than min of collection or equals it";
         }
     }
 
-    public boolean checkElementById(UUID id) {
-        return collection.stream()
+    public boolean checkElementById(Integer id) {
+        readLock.lock();
+        boolean isExist = collection.stream()
                 .map(HumanBeing::getId)
-                .anyMatch(uuid -> uuid.equals(id));
+                .anyMatch(i -> i.equals(id));
+        readLock.unlock();
+        return isExist;
     }
 
     public Optional<HumanBeing> getMinElement() {
         return collection.stream().min(Comparator.comparingLong(HumanBeing::getImpactSpeed));
     }
 
-    public HumanDirector getHumanDirector() {
-        return humanDirector;
-    }
-
-    public boolean removeById(UUID id) {
+    public boolean removeById(Integer id) {
         writeLock.lock();
         readLock.lock();
-        boolean isRemoved = collection.removeIf(product -> product.getId().equals(id));
+        boolean isRemoved = collection.removeIf(humanBeing -> humanBeing.getId().equals(id));
         writeLock.unlock();
         readLock.unlock();
         return isRemoved;
     }
+
 
     public String toString() {
         StringBuilder str = new StringBuilder();
@@ -110,14 +118,15 @@ public class HumanSet {
         collection.removeIf(humanBeing1 -> humanBeing1.compareTo(humanBeing) < 0);
     }
 
-    public int countLessWeapon(WeaponType weaponType) {
-        int res = 0;
-        for (HumanBeing humanBeing : collection) {
-            if (humanBeing.getWeaponType().getNumber() - weaponType.getNumber() < 0) {
-                res++;
-            }
-        }
-        return res;
+    public String countLessWeapon(WeaponType weaponType) {
+        writeLock.lock();
+        readLock.lock();
+        String response = String.format("Count of elements less than %s - %d \n", weaponType.toString(), collection.stream()
+                .map(HumanBeing::getWeaponType)
+                .filter(weapon -> weapon.compareTo(weaponType) < 0).count());
+        writeLock.unlock();
+        readLock.unlock();
+        return response;
     }
 
     public String filterByImpactSpeed(String arg) {
@@ -141,11 +150,28 @@ public class HumanSet {
         }
         return str.toString();
     }
-    public void save(File arg) throws FileNotFoundException {
-            if (FileChecker.checkFileToWrite(arg)) {
-                writer.writeCollectionToFile(arg, collection);
+
+    public String show() {
+        writeLock.lock();
+        readLock.lock();
+        String response = null;
+        if (size() == 0) {
+            response = "Collection is empty";
+        } else {
+            if (false) {
+                response = collection.stream()
+                        .limit(100)
+                        .map(HumanBeing::toString)
+                        .collect(Collectors.joining(System.lineSeparator())) + String.format("\n And %d products more ....", collection.size() - 100);
             } else {
-                throw new FileNotFoundException(String.format("With name - %s", arg.getName()));
+                response = collection.stream()
+                        .map(HumanBeing::toString)
+                        .collect(Collectors.joining(System.lineSeparator()));
             }
+        }
+        writeLock.unlock();
+        readLock.unlock();
+        return response;
     }
+
 }
